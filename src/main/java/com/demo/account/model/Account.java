@@ -47,7 +47,7 @@ public class Account implements Serializable {
 	}
 
 	public Account() {
-		
+
 	}
 
 	public Account(Person person) {
@@ -183,7 +183,6 @@ public class Account implements Serializable {
 	private String gender;
 	private String ssoProvider;
 
-	@JsonIgnore
 	@Column(
 		name = "password_hash",
 		nullable = false)
