@@ -11,7 +11,6 @@ import com.demo.account.constants.UserAPIConstants;
 import com.demo.account.dao.AccountDao;
 import com.demo.account.model.Account;
 import com.demo.account.model.Errors;
-import com.demo.account.service.SocialAccountFactory;
 import com.demo.exception.handlers.CustomMD5PasswordEncoder;
 import com.demo.validations.utility.ValidationUtility;
 
@@ -19,9 +18,6 @@ import com.demo.validations.utility.ValidationUtility;
 public class AccountObjectPostProcessor {
 
 	final static Logger logger = LoggerFactory.getLogger(AccountObjectPostProcessor.class);
-
-	@Autowired
-	private SocialAccountFactory socialAccountFactory;
 
 	@Autowired
 	PasswordEncoder passwordEncoder;
@@ -32,13 +28,8 @@ public class AccountObjectPostProcessor {
 	public Account getValidatedObject(Account account) throws ValidationException {
 		if (account.getSsoProvider().equals("app")) {
 			return validateObject(account);
-		} else {
-			try {
-				return socialAccountFactory.getAccountObjectFromWebRequest(account.getPassword(),
-						account.getSsoProvider(),false);
-			} catch (Exception e) {
-				throw new ValidationException(e);
-			}
+		}else{
+				throw new ValidationException("Invalid Platform");
 		}
 	}
 

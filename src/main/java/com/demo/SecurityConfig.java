@@ -30,7 +30,6 @@ import org.springframework.security.web.authentication.www.BasicAuthenticationFi
 
 import com.demo.account.dao.AccountDao;
 import com.demo.account.service.ExclusivelyUserDetailsService;
-import com.demo.account.service.PersonalizationSocialAccountFactory;
 import com.demo.exception.handlers.CustomMD5PasswordEncoder;
 
 @Configuration
@@ -52,9 +51,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Autowired
 	AccountDao accountDao;
 	
-	@Autowired
-	PersonalizationSocialAccountFactory personalizationSocialAccountFactory;
-
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests().antMatchers("/secure/**").authenticated().anyRequest().hasRole("AUTHENTICATED_USER")
@@ -63,7 +59,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
 		http.addFilterAfter(new AuthenticationFilter(accountDao, authenticationManager(), headerName, socialTokenName,
-				socialTokenType, personalizationSocialAccountFactory,threadPoolTaskExecutor), BasicAuthenticationFilter.class);
+				socialTokenType,threadPoolTaskExecutor), BasicAuthenticationFilter.class);
 	}
 
 	@Autowired

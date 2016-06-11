@@ -80,7 +80,6 @@ public class SocialAccountFactory {
 						if (existingAccount == null) {
 							account = new Account(userProfile, accessToken);
 							accountObjectPostProcessor.savePasswordWithSalt(account);
-							account.setCreateDate(UserAPIConstants.SQL_TIMESTAMP_FORMAT.format(new Date()));
 							account.setProfileImage(profileImage != null ? profileImage : null);
 							accountDao.save(account);
 						} else {
@@ -141,6 +140,9 @@ public class SocialAccountFactory {
 		}
 		return account;
 	}
+	
+	@Value("${facebook.image.size:LARGE}")
+	private String faceBookImageSize;
 
 	/**
 	 * Method will fetch profile image
@@ -151,7 +153,7 @@ public class SocialAccountFactory {
 	private String fetchProfileImage(User userProfile) {
 		try {
 			URI uri = URIBuilder.fromUri(GraphApi.GRAPH_API_URL + userProfile.getId() + "/picture" + "?type="
-					+ ImageType.SMALL.toString().toLowerCase() + "&redirect=false").build();
+					+ ImageType.valueOf(faceBookImageSize).toString().toLowerCase() + "&redirect=false").build();
 			HttpClient httpClient = HttpClientBuilder.create().build();
 			HttpGet get = new HttpGet(uri.toString());
 			HttpResponse response = httpClient.execute(get);
@@ -165,27 +167,26 @@ public class SocialAccountFactory {
 				return facebookImage.getData().getUrl();
 			}
 		} catch (Exception exception) {
-			logger.error("Exception occured : " , exception);
+			logger.error("Exception occured : ", exception);
 		}
 		return null;
 	}
 
 	/**
 	 * Code is added to remove video upload limits fields as that was out of
-	 * integer range not supported in Spinr facebook social
+	 * integer range not supported in Spring facebook social
 	 */
 	@PostConstruct
 	private void init() {
 		// hack for the login of facebook.
 		try {
-			String[] fieldsToMap = { "id", "about", "age_range", "bio", "birthday", "context", "cover", "currency",
-					"devices", "education", "email", "favorite_athletes", "favorite_teams", "first_name", "gender",
-					"hometown", "inspirational_people", "languages", "last_name", "locale", "location", "name",
-					"name_format", "political", "relationship_status", "religion", "sports", "timezone", "updated_time",
-					"work" };
+			String[] fieldsToMap = { "id", "about", "age_range", "bio", "birthday", "context", "cover", "currency", "devices", "education", "email",
+					"favorite_athletes", "favorite_teams", "first_name", "gender", "hometown", "inspirational_people", "installed", "install_type",
+					"is_verified", "languages", "last_name", "link", "locale", "location", "meeting_for", "middle_name", "name", "name_format",
+					"political", "quotes", "payment_pricepoints", "relationship_status", "religion", "security_settings", "significant_other",
+					"sports", "test_group", "timezone", "third_party_id", "updated_time", "verified", "viewer_can_send_gift", "website", "work" };
 
-			Field field = Class.forName("org.springframework.social.facebook.api.UserOperations")
-					.getDeclaredField("PROFILE_FIELDS");
+			Field field = Class.forName("org.springframework.social.facebook.api.UserOperations").getDeclaredField("PROFILE_FIELDS");
 			field.setAccessible(true);
 
 			Field modifiers = field.getClass().getDeclaredField("modifiers");

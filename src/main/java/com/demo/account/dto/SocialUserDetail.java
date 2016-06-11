@@ -10,6 +10,7 @@ public class SocialUserDetail implements Serializable {
 	private String accessToken;
 	private String imsId;
 	private String socialType;
+	private String platform;
 
 	public Long getId() {
 		return id;
@@ -49,6 +50,14 @@ public class SocialUserDetail implements Serializable {
 
 	public void setSocialType(String socialType) {
 		this.socialType = socialType;
+	}
+
+	public String getPlatform() {
+		return platform;
+	}
+
+	public void setPlatform(String platform) {
+		this.platform = platform;
 	}
 
 }
