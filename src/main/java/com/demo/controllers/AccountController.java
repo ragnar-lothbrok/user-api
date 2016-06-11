@@ -52,6 +52,7 @@ public class AccountController {
 			if (account != null) {
 				account.setPassword(account.getPassword() == null ? null : account.getPassword().trim());
 			}
+//			account.setPassword("secret");
 			Account postProcessedObject = accountObjectPostProcessor.getValidatedObject(account);
 			accountDao.save(postProcessedObject);
 			account = accountDao.findAccountByEmailId(account.getEmailId());

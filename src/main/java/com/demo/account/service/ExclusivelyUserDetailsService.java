@@ -39,7 +39,7 @@ public class ExclusivelyUserDetailsService implements UserDetailsService {
 			throw new UsernameNotFoundException("Account not registered");
 		}
 		GrantedAuthority authority = new SimpleGrantedAuthority("ROLE_AUTHENTICATED_USER");
-		UserDetails userDetails = (UserDetails) new User(account.getEmailId(), account.getPassword(), Arrays.asList(authority));
+		UserDetails userDetails = (UserDetails) new User(account.getId()+"", account.getPassword(), Arrays.asList(authority));
 		logger.info("Details : " + userDetails);
 		return userDetails;
 	}

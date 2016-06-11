@@ -30,7 +30,7 @@ public class AccountObjectPostProcessor {
 	AccountDao accountDao;
 
 	public Account getValidatedObject(Account account) throws ValidationException {
-		if (account.getSsoProvider().equals("exclusively")) {
+		if (account.getSsoProvider().equals("app")) {
 			return validateObject(account);
 		} else {
 			try {
