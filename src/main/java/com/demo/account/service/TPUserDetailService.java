@@ -23,6 +23,7 @@ public class TPUserDetailService {
 			account = new Account();
 			account.setId(1111l);
 			account.setEmailId("test@gmail.com");
+			account.setPassword("reset@4321");
 			accountDao.save(account);
 		}
 		return account;
