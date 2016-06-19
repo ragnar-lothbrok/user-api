@@ -17,9 +17,9 @@ import com.demo.account.constants.UserAPIConstants;
 import com.demo.account.dao.AccountDao;
 import com.demo.account.model.Account;
 
-public class ExclusivelyUserDetailsService implements UserDetailsService {
+public class CustomUserDetailsService implements UserDetailsService {
 
-	final static Logger logger = LoggerFactory.getLogger(ExclusivelyUserDetailsService.class);
+	final static Logger logger = LoggerFactory.getLogger(CustomUserDetailsService.class);
 
 	@Autowired
 	private AccountDao accountDao;

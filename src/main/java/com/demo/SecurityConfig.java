@@ -29,7 +29,7 @@ import org.springframework.security.oauth2.provider.token.store.KeyStoreKeyFacto
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
 import com.demo.account.dao.AccountDao;
-import com.demo.account.service.ExclusivelyUserDetailsService;
+import com.demo.account.service.CustomUserDetailsService;
 import com.demo.exception.handlers.CustomMD5PasswordEncoder;
 
 @Configuration
@@ -86,7 +86,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Bean
 	@Override
 	protected UserDetailsService userDetailsService() {
-		return new ExclusivelyUserDetailsService();
+		return new CustomUserDetailsService();
 
 	}
 
